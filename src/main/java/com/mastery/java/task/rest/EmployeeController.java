@@ -1,13 +1,18 @@
 package com.mastery.java.task.rest;
 
+import com.mastery.java.task.dto.EmployeeDto;
+import com.mastery.java.task.dto.mapper.EmployeeMapper;
 import com.mastery.java.task.exceptions.EmployeeException;
+import com.mastery.java.task.exceptions.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
-import com.mastery.java.task.exceptions.NoEmployeeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.mastery.java.task.dto.mapper.EmployeeMapper.toEmployeeDto;
+import static com.mastery.java.task.dto.mapper.EmployeeMapper.toListEmployeeDto;
 
 @RestController
 @RequestMapping("/v1")
@@ -20,14 +25,15 @@ public class EmployeeController {
         this.service = service;
     }
 
+
     @GetMapping("/employees")
-    public List<Employee> findAllEmployee() {
-        return service.findAll();
+    public List<EmployeeDto> findAllEmployee() {
+        return toListEmployeeDto(service.findAll());
     }
 
     @GetMapping("/employees/{id}")
-    public Employee findEmployeeById(@PathVariable("id") Long id) throws NoEmployeeException {
-        return service.findById(id);
+    public EmployeeDto findEmployeeById(@PathVariable("id") Long id) throws NoEmployeeException {
+        return toEmployeeDto(service.findById(id));
     }
 
     @PostMapping("/employees")
