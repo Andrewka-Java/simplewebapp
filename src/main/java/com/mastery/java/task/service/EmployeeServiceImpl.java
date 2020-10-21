@@ -1,7 +1,8 @@
 package com.mastery.java.task.service;
 
 import com.mastery.java.task.dao.EmployeeDao;
-import com.mastery.java.task.exceptions.NoEmployeeException;
+import com.mastery.java.task.exception.EmployeeException;
+import com.mastery.java.task.exception.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

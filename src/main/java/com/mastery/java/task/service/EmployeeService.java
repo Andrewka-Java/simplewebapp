@@ -1,6 +1,7 @@
 package com.mastery.java.task.service;
 
-import com.mastery.java.task.exceptions.NoEmployeeException;
+import com.mastery.java.task.exception.EmployeeException;
+import com.mastery.java.task.exception.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
 
 import java.util.List;

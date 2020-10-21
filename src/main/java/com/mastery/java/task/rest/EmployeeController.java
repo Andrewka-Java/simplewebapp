@@ -1,14 +1,14 @@
 package com.mastery.java.task.rest;
 
 import com.mastery.java.task.dto.EmployeeDto;
-import com.mastery.java.task.dto.mapper.EmployeeMapper;
-import com.mastery.java.task.exceptions.EmployeeException;
-import com.mastery.java.task.exceptions.NoEmployeeException;
+import com.mastery.java.task.exception.EmployeeException;
+import com.mastery.java.task.exception.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.mastery.java.task.dto.mapper.EmployeeMapper.toEmployeeDto;
@@ -37,13 +37,14 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public void saveEmployee(@RequestBody Employee employee) throws EmployeeException {
-        if (employee.getEmployeeId() != null) throw new EmployeeException("Such an employee already exists.");
+    public void saveEmployee(@Valid @RequestBody Employee employee) throws EmployeeException {
+        if (employee.getEmployeeId() != null) throw new EmployeeException("Such an employee isn't correct.");
         service.saveOrUpdate(employee);
+
     }
 
     @PutMapping("/employees/{id}")
-    public void updateEmployee(@RequestBody Employee employee) throws EmployeeException {
+    public void updateEmployee(@RequestBody @Valid Employee employee) throws EmployeeException {
         if (employee.getEmployeeId() == null) throw new EmployeeException("No such employee found.");
         service.saveOrUpdate(employee);
     }
