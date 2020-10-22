@@ -1,16 +1,15 @@
 package com.mastery.java.task.rest;
 
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/log")
 public class LoggingController {
-
-    private Log log = LogFactory.getLog(LoggingController.class);
 
     @GetMapping
     public String log() {

@@ -1,0 +1,26 @@
+### Use this request for checking level of the logger in the directory
+
+GET http://localhost:8090/actuator/loggers/com.mastery.java.task.rest
+Accept: application/json
+
+
+
+### Use this request for change level of the logger in the directory
+
+POST http://localhost:8090/actuator/loggers/com.mastery.java.task.rest
+Content-type: application/json
+
+{
+  "configuredLevel": "INFO"
+}
+
+
+
+### Use this request for resetting level of the logger in the directory
+
+POST http://localhost:8090/actuator/loggers/com.mastery.java.task.rest
+Content-type: application/json
+
+{
+  "configuredLevel": null
+}
