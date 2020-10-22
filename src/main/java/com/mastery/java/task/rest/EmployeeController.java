@@ -5,15 +5,14 @@ import com.mastery.java.task.exception.EmployeeException;
 import com.mastery.java.task.exception.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.mastery.java.task.dto.mapper.EmployeeMapper.toEmployeeDto;
-import static com.mastery.java.task.dto.mapper.EmployeeMapper.toListEmployeeDto;
-
+@Slf4j
 @RestController
 @RequestMapping("/v1")
 public class EmployeeController {
@@ -28,30 +27,47 @@ public class EmployeeController {
 
     @GetMapping("/employees")
     public List<EmployeeDto> findAllEmployee() {
-        return toListEmployeeDto(service.findAll());
+        log.debug("The method findAllEmployee is starting");
+        List<EmployeeDto> employeeDtos = service.findAllEmployee();
+
+        log.debug("The method findAllEmployee was executed with response ({})", employeeDtos);
+        return employeeDtos;
     }
 
     @GetMapping("/employees/{id}")
     public EmployeeDto findEmployeeById(@PathVariable("id") Long id) throws NoEmployeeException {
-        return toEmployeeDto(service.findById(id));
+        log.debug("The method findEmployeeById is starting with param ({})", id);
+        EmployeeDto employeeDto = service.findEmployeeById(id);
+
+        log.debug("The method findEmployeeById was executed with response ({})", employeeDto);
+        return employeeDto;
     }
 
     @PostMapping("/employees")
     public void saveEmployee(@Valid @RequestBody Employee employee) throws EmployeeException {
-        if (employee.getEmployeeId() != null) throw new EmployeeException("Such an employee isn't correct.");
-        service.saveOrUpdate(employee);
+        log.debug("The method saveEmployee is starting with param ({})", employee);
 
+        if (employee.getEmployeeId() != null) throw new EmployeeException("Such an employee isn't correct.");
+        Employee savedEmployee = service.saveOrUpdate(employee);
+
+        log.debug("The method saveEmployee was executed with response ({})", savedEmployee);
     }
 
     @PutMapping("/employees/{id}")
     public void updateEmployee(@RequestBody @Valid Employee employee) throws EmployeeException {
+        log.debug("The method updateEmployee is starting with param ({})", employee);
+
         if (employee.getEmployeeId() == null) throw new EmployeeException("No such employee found.");
-        service.saveOrUpdate(employee);
+        Employee updatedEmployee = service.saveOrUpdate(employee);
+
+        log.debug("The method updateEmployee was executed with response ({})", updatedEmployee);
     }
 
     @DeleteMapping("/employees/{id}")
     public void deleteEmployee(@PathVariable("id") Long id) {
-        service.delete(id);
+        log.debug("The method deleteEmployee is starting with param ({})", id);
+        service.deleteEmployee(id);
+        log.debug("The method deleteEmployee was executed");
     }
 
 }
