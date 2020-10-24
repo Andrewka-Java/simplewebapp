@@ -7,10 +7,12 @@ import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
 
 @Slf4j
 @RestController
@@ -18,12 +20,13 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService service;
+    private final JmsTemplate jmsTemplate;
 
     @Autowired
-    public EmployeeController(EmployeeService service) {
+    public EmployeeController(EmployeeService service, JmsTemplate jmsTemplate) {
         this.service = service;
+        this.jmsTemplate = jmsTemplate;
     }
-
 
     @GetMapping("/employees")
     public List<EmployeeDto> findAllEmployee() {
@@ -48,9 +51,9 @@ public class EmployeeController {
         log.debug("The method saveEmployee is starting with param ({})", employee);
 
         if (employee.getEmployeeId() != null) throw new EmployeeException("Such an employee isn't correct.");
-        Employee savedEmployee = service.saveOrUpdate(employee);
+        jmsTemplate.convertAndSend("saveOrUpdate", employee);
 
-        log.debug("The method saveEmployee was executed with response ({})", savedEmployee);
+        log.debug("The method saveEmployee was executed with response ({})", employee);
     }
 
     @PutMapping("/employees/{id}")
@@ -58,15 +61,15 @@ public class EmployeeController {
         log.debug("The method updateEmployee is starting with param ({})", employee);
 
         if (employee.getEmployeeId() == null) throw new EmployeeException("No such employee found.");
-        Employee updatedEmployee = service.saveOrUpdate(employee);
+        jmsTemplate.convertAndSend("saveOrUpdate", employee);
 
-        log.debug("The method updateEmployee was executed with response ({})", updatedEmployee);
+        log.debug("The method updateEmployee was executed with response ({})", employee);
     }
 
     @DeleteMapping("/employees/{id}")
     public void deleteEmployee(@PathVariable("id") Long id) {
         log.debug("The method deleteEmployee is starting with param ({})", id);
-        service.deleteEmployee(id);
+        jmsTemplate.convertAndSend("deleteEmployee", id);
         log.debug("The method deleteEmployee was executed");
     }
 

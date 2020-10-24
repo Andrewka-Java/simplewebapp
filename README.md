@@ -1,11 +1,11 @@
 ### Practical task
 
-Using the provided skeleton, implement the REST service.
-
-Useful link: https://spring.io/guides/gs/rest-service/
-
-In addition you could use Swagger to provide API documentation.
+       
         
-        
-  
+#####Liquibase:
 
+That make a rollback you should run: 
+> mvn liquibase:rollback -Dliquibase.rollbackTag= tagVersion
+
+That to update to the last state:
+>mvn liquibase:update

@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,15 +53,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee saveOrUpdate(Employee employee) {
+    @JmsListener(destination = "saveOrUpdate")
+    public void saveOrUpdate(Employee employee) {
         log.debug("The method saveOrUpdate is starting with param ({})", employee);
         Employee newEmployee = employeeDao.save(employee);
-
         log.debug("The method saveOrUpdate was executed with response ({})", newEmployee);
-        return newEmployee;
     }
 
     @Override
+    @JmsListener(destination = "deleteEmployee")
     public void deleteEmployee(Long id) {
         log.debug("The method deleteEmployee is starting with param ({})", id);
         employeeDao.deleteById(id);

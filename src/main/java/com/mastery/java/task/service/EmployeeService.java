@@ -10,6 +10,6 @@ public interface EmployeeService {
 
     List<EmployeeDto> findAllEmployee();
     EmployeeDto findEmployeeById(Long id) throws NoEmployeeException;
-    Employee saveOrUpdate(Employee employee);
+    void saveOrUpdate(Employee employee);
     void deleteEmployee(Long id);
 }
