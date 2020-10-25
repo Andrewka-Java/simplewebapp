@@ -97,6 +97,25 @@ public class EmployeeServiceTest {
     }
 
 
+    @Test
+    public void findByIdEmployeeBad() throws NoEmployeeException {
+        log.debug("Test method findByIdEmployee is starting execute");
+
+        try {
+            Mockito.when(employeeDao.findById(100L)).thenThrow(new NoEmployeeException("No one employee was found."));
+            employeeService.findEmployeeById(100L);
+
+        } catch (Exception ex) {
+            log.debug("The exception was thrown in bad test case. Message: {}", ex.getMessage());
+        }
+
+        Mockito.verify(employeeDao, Mockito.times(0)).findById(100L);
+
+        log.debug("Test method findByIdEmployee was executed");
+    }
+
+
+
     private Optional<Employee> createFixture() {
         Employee employee = new Employee();
 

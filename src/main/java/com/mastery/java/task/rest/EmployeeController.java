@@ -7,6 +7,7 @@ import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,6 +48,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
+    @ResponseStatus(value = HttpStatus.CREATED)
     public void saveEmployee(@Valid @RequestBody Employee employee) throws EmployeeException {
         log.debug("The method saveEmployee is starting with param ({})", employee);
 
@@ -57,6 +59,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/employees/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
     public void updateEmployee(@RequestBody @Valid Employee employee) throws EmployeeException {
         log.debug("The method updateEmployee is starting with param ({})", employee);
 
@@ -67,6 +70,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employees/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
     public void deleteEmployee(@PathVariable("id") Long id) {
         log.debug("The method deleteEmployee is starting with param ({})", id);
         jmsTemplate.convertAndSend("deleteEmployee", id);
