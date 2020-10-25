@@ -1,11 +1,10 @@
-package com.mastery.java.task.dao;
+package com.mastery.java.task.service;
 
-
+import com.mastery.java.task.dao.EmployeeDao;
 import com.mastery.java.task.dto.EmployeeDto;
 import com.mastery.java.task.exception.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.model.Gender;
-import com.mastery.java.task.service.EmployeeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -106,6 +106,7 @@ public class EmployeeServiceTest {
         employee.setDepartmentId(1);
         employee.setJobTitle("developer");
         employee.setGender(Gender.MALE);
+        employee.setDateOfBirth(LocalDate.now());
 
         return Optional.of(employee);
     }
@@ -118,6 +119,7 @@ public class EmployeeServiceTest {
         employee.setDepartmentId(1);
         employee.setJobTitle("developer");
         employee.setGender(Gender.MALE);
+        employee.setDateOfBirth(LocalDate.now());
 
         return Optional.of(employee);
     }
