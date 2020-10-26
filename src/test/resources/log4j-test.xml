@@ -14,12 +14,18 @@
         <param name="append" value="false" />
         <param name="maxFileSize" value="1MB" />
         <param name="maxBackupIndex" value="2" />
-        <param name="file" value="log4j-slf4j.log" />
+        <param name="file" value="log4j-slf4j-test.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern"
                    value="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n" />
         </layout>
     </appender>
+
+    <logger name="com.mastery.java.task.dao" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </logger>
 
     <logger name="com.mastery.java.task.service" additivity="false">
         <level value="DEBUG"/>
