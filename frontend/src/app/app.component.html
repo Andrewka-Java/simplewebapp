@@ -1,0 +1,98 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand link-pointer"
+       (click)="findAll()">
+      Task
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Togglenavigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link link-pointer"
+           (click)="openAddDialog()">Add</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+<div class="input-group mb-3">
+  <input
+      #name
+      ngModel
+
+      name="name"
+      class="form-control"
+      type="text"
+      placeholder="Enter a id for searching"/>
+  <div class="input-group-prepend">
+    <button type="button" class="btn btn-warning" (click)="findById(name.value);">Search</button>
+  </div>
+</div>
+
+<section>
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <table class="table table-striped">
+        <thead class="thead-inverse">
+
+
+        <tr>
+          <th>#</th>
+          <th>Id</th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Job title</th>
+          <th>Gender</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr *ngFor="let employee of employees; let index = index">
+          <td>{{index + 1}}</td>
+          <td>{{employee.employeeId}}</td>
+          <td>{{employee.firstName}}</td>
+          <td>{{employee.lastName}}</td>
+          <td>{{employee.jobTitle}}</td>
+          <td>{{employee.gender}}</td>
+          <td>
+            <button type="button" class="btn btn-dark float-right"
+                    (click)="delete(employee.employeeId)">
+              Delete
+            </button>
+            <button type="button" class="btn btn-dark float-right"
+                    (click)="openUpdateDialog(employee)">
+              Edit
+            </button>
+          </td>
+        </tr>
+
+
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</section>
+
+<app-add-employee
+    [display]="displayAddEmployeeModal"
+    [employee]="employee"
+    (displayAddEmployeeModal)="closeAddDialog($event)"></app-add-employee>
+
+<app-update-employee
+    [display]="displayUpdateEmployeeModal"
+    [employee]="employee"
+    [id]="id"
+    [firstName]="firstName"
+    [lastName]="lastName"
+    [jobTitle]="jobTitle"
+    (displayUpdateEmployeeModal)="closeUpdateDialog($event)"></app-update-employee>

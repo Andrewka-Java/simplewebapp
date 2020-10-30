@@ -1,0 +1,125 @@
+<!--Confirm through e-mail -->
+<div class="pay-ticket-modal" [ngStyle]="{'display': display}"></div>
+<div class="modal" id="sendMail" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" [ngStyle]="{'display': display}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header alert-warning">
+                <h5 class="modal-title" id="sendEmailModalLabel" [ngStyle]="{'color': 'black'}">Add new config</h5>
+                <button type="button" data-dismiss="modal" (click)="closeDialog()">
+                    <span class="close">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                Please to fill the gaps
+            </div>
+
+            <div class="container">
+                <form #updateForm="ngForm"
+                      id="addForm">
+
+                    <div class="form-group">
+                        <input
+                            [(ngModel)]="id"
+                            name="employeeId"
+                            class="form-control"
+                            type="text"
+                            hidden/>
+                    </div>
+
+                    <div class="form-group">
+                        <input
+                            [(ngModel)]="firstName"
+                            name="firstName"
+                            class="form-control"
+                            type="text"
+                            placeholder="Enter a first name"/>
+                    </div>
+
+                    <div class="form-group">
+                        <input
+                            [(ngModel)]="lastName"
+                            name="lastName"
+                            class="form-control"
+                            type="text"
+                            placeholder="Enter a last name"/>
+                    </div>
+
+                    <div class="form-group">
+                        <input
+                            ngModel
+                            name="departmentId"
+                            class="form-control"
+                            type="text"
+                            placeholder="Enter a department number"/>
+                    </div>
+
+                    <div class="form-group">
+                        <input
+                            [(ngModel)]="jobTitle"
+                            name="jobTitle"
+                            class="form-control"
+                            type="text"
+                            placeholder="Enter a job title"/>
+                    </div>
+
+                    <label>Select a gender</label>
+
+                    <br>
+                    <div class="form-check form-check-inline">
+                        <input
+                            ngModel
+                            class="form-check-input"
+                            type="radio"
+                            name="gender"
+                            id="gender1"
+                            value="MALE"
+                            checked>
+                        <label class="form-check-label" for="gender1">
+                            Male
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input
+                            ngModel
+                            class="form-check-input"
+                            type="radio"
+                            name="gender"
+                            id="gender2"
+                            value="FEMALE">
+                        <label class="form-check-label" for="gender2">
+                            Female
+                        </label>
+                    </div>
+
+                    <br>
+                    <label>Birthday</label>
+                    <div class="form-group">
+                        <input
+                            ngModel
+                            name="dateOfBirth"
+                            type="date"
+                            class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <input
+                            ngModel
+                            name="salary"
+                            class="form-control"
+                            type="text"
+                            placeholder="Enter a salary(cannot be less then 400)"/>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeDialog()">Cancel</button>
+                <button type="button" class="btn btn-warning" (click)="update(updateForm.value); closeDialog()">Update</button>
+            </div>
+
+        </div>
+    </div>
+</div>
