@@ -5,6 +5,7 @@ import com.mastery.java.task.exception.EmployeeException;
 import com.mastery.java.task.exception.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.service.EmployeeService;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 
 
 @Slf4j
+@Api(value = "Employee API", description = "Operations pertaining to an Employee")
 @RestController
 @RequestMapping("/v1")
 public class EmployeeController {
@@ -29,7 +31,13 @@ public class EmployeeController {
         this.jmsTemplate = jmsTemplate;
     }
 
-    @GetMapping("/employees")
+
+    @ApiOperation(value = "Get a list of employees", response = List.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved list"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @GetMapping(value = "/employees", produces = "application/json")
     public List<EmployeeDto> findAllEmployee() {
         log.debug("The method findAllEmployee is starting");
         List<EmployeeDto> employeeDtos = service.findAllEmployee();
@@ -38,7 +46,12 @@ public class EmployeeController {
         return employeeDtos;
     }
 
-    @GetMapping("/employees/{id}")
+    @ApiOperation(value = "Get a employee by an id", response = Employee.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved object"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @GetMapping(value = "/employees/{id}", produces = "application/json")
     public EmployeeDto findEmployeeById(@PathVariable("id") Long id) throws NoEmployeeException {
         log.debug("The method findEmployeeById is starting with param ({})", id);
         EmployeeDto employeeDto = service.findEmployeeById(id);
@@ -47,7 +60,14 @@ public class EmployeeController {
         return employeeDto;
     }
 
-    @PostMapping("/employees")
+    @ApiOperation(value = "Save an employee", response = void.class)
+    @ApiImplicitParam(name = "employee", required = true,
+            value = "Employee object", paramType = "body", dataTypeClass = Employee.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully created"),
+            @ApiResponse(code = 400, message = "Bad request")
+    })
+    @PostMapping(value = "/employees", consumes = "application/json")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void saveEmployee(@Valid @RequestBody Employee employee) throws EmployeeException {
         log.debug("The method saveEmployee is starting with param ({})", employee);
@@ -58,19 +78,35 @@ public class EmployeeController {
         log.debug("The method saveEmployee was executed with response ({})", employee);
     }
 
-    @PutMapping("/employees/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void updateEmployee(@RequestBody @Valid Employee employee) throws EmployeeException {
+    @ApiOperation(value = "Update an employee", response = void.class)
+    @ApiImplicitParam(name = "employee", required = true,
+            value = "Employee object", paramType = "body", dataTypeClass = Employee.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Successfully updated"),
+            @ApiResponse(code = 400, message = "Bad request")
+    })
+    @PutMapping(value = "/employees/{id}", consumes = "application/json")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void updateEmployee(@PathVariable("id") Long id,
+                                @RequestBody @Valid Employee employee) throws EmployeeException {
         log.debug("The method updateEmployee is starting with param ({})", employee);
 
-        if (employee.getEmployeeId() == null) throw new EmployeeException("No such employee found.");
+        if (employee.getEmployeeId() == null || !employee.getEmployeeId().equals(id))
+            throw new EmployeeException("Such an employee isn't correct.");
+
         jmsTemplate.convertAndSend("saveOrUpdate", employee);
 
         log.debug("The method updateEmployee was executed with response ({})", employee);
     }
 
-    @DeleteMapping("/employees/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
+    @ApiOperation(value = "Delete an employee", response = void.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Successfully deleted"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
+    })
+    @DeleteMapping(value = "/employees/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable("id") Long id) {
         log.debug("The method deleteEmployee is starting with param ({})", id);
         jmsTemplate.convertAndSend("deleteEmployee", id);

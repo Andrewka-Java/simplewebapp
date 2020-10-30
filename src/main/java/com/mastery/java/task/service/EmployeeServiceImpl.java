@@ -62,9 +62,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @JmsListener(destination = "deleteEmployee")
-    public void deleteEmployee(Long id) {
+    public void deleteEmployee(Long id) throws NoEmployeeException {
         log.debug("The method deleteEmployee is starting with param ({})", id);
-        employeeDao.deleteById(id);
+//TODO: cannot process exception because of no return type
+        try {
+            employeeDao.deleteById(id);
+        } catch (Exception ex) {
+            throw new NoEmployeeException("No one employee with id = " + id + " was found");
+        }
+
         log.debug("The method deleteEmployee was executed");
     }
 }

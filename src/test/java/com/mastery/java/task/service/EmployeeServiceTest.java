@@ -86,7 +86,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void deleteEmployee() {
+    public void deleteEmployee() throws NoEmployeeException {
         log.debug("Test method deleteEmployee is starting execute");
 
         employeeService.deleteEmployee(1L);
@@ -96,14 +96,31 @@ public class EmployeeServiceTest {
         log.debug("Test method deleteEmployee was executed");
     }
 
+    @Test
+    public void deleteEmployeeBad() throws NoEmployeeException {
+        log.debug("Test method deleteEmployeeBad is starting execute");
+
+        try {
+            Mockito.doThrow(new NoEmployeeException("No one employee was found.")).when(employeeDao).deleteById(1000L);
+            employeeService.deleteEmployee(1000L);
+
+        }catch (Exception ex) {
+            log.debug("The exception was thrown in bad test case. Message: {}", ex.getMessage());
+        }
+
+        Mockito.verify(employeeDao, Mockito.times(1)).deleteById(1000L);
+
+        log.debug("Test method deleteEmployeeBad was executed");
+    }
+
 
     @Test
     public void findByIdEmployeeBad() throws NoEmployeeException {
         log.debug("Test method findByIdEmployee is starting execute");
 
         try {
-            Mockito.when(employeeDao.findById(100L)).thenThrow(new NoEmployeeException("No one employee was found."));
-            employeeService.findEmployeeById(100L);
+            Mockito.when(employeeDao.findById(1000L)).thenThrow(new NoEmployeeException("No one employee was found."));
+            employeeService.findEmployeeById(1000L);
 
         } catch (Exception ex) {
             log.debug("The exception was thrown in bad test case. Message: {}", ex.getMessage());

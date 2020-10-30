@@ -12,5 +12,5 @@ public interface EmployeeService {
     List<EmployeeDto> findAllEmployee();
     EmployeeDto findEmployeeById(Long id) throws NoEmployeeException;
     void saveOrUpdate(Employee employee);
-    void deleteEmployee(Long id);
+    void deleteEmployee(Long id) throws NoEmployeeException;
 }

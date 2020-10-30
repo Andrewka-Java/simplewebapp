@@ -108,7 +108,7 @@ public class EmployeeControllerTest extends AbstractTest {
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(mapToJson(employee))
         )
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         Mockito.verify(jmsTemplate, Mockito.times(1))
                 .convertAndSend("saveOrUpdate", employee);
@@ -119,7 +119,7 @@ public class EmployeeControllerTest extends AbstractTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/v1/employees/{id}", 1)
         )
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
         Mockito.verify(jmsTemplate, Mockito.times(1))
                 .convertAndSend("deleteEmployee", 1L);
@@ -176,7 +176,7 @@ public class EmployeeControllerTest extends AbstractTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof EmployeeException))
                 .andExpect(result ->
-                        assertEquals("No such employee found.",
+                        assertEquals("Such an employee isn't correct.",
                                 result.getResolvedException().getMessage()));;
 
         Mockito.verify(jmsTemplate, Mockito.times(0))

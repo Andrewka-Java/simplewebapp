@@ -3,16 +3,22 @@ package com.mastery.java.task.rest;
 import com.mastery.java.task.exception.ApiException;
 import com.mastery.java.task.exception.EmployeeException;
 import com.mastery.java.task.exception.NoEmployeeException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 
-@ControllerAdvice
+@RestControllerAdvice
 public class EmployeeExceptionHandler {
 
     @ExceptionHandler(NoEmployeeException.class)
