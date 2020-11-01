@@ -172,15 +172,28 @@
 				<configuration>
 					<propertyFile>src/main/resources/liquibase.properties</propertyFile>
 				</configuration>
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<phase>process-resources</phase>-->
-<!--						<goals>-->
-<!--							<goal>update</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
 			</plugin>
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<target>
+								<copy file="target/${project.artifactId}-${project.version}.jar" tofile="../docker/services/app/app.jar"/>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 

@@ -1,0 +1,46 @@
+version: '3.3'
+
+services:
+  postgres:
+    build:
+      context: services/postgres
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=employee
+      - POSTGRES_PASSWORD=1234
+
+
+  app:
+    build:
+      context: services/app
+      dockerfile: Dockerfile
+
+    environment:
+      - PORT=8088
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employee?stringtype=unspecified
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1234
+##      - FRONTEND_URL=http://localhost
+    image: my_backend_image
+    ports:
+      - 8088:8088
+    depends_on:
+      - postgres
+
+
+
+#  frontend:
+#    build:
+#      context: docker/services/frontend
+#      dockerfile:  Dockerfile
+#    image: 'my_frontend_image'
+#    ports:
+#      - 4200:4200
+#    depends_on:
+#      - backend
+
+
+volumes:
+  db-data:
