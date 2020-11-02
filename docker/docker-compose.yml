@@ -2,6 +2,7 @@ version: '3.3'
 
 services:
   postgres:
+    container_name: postgres-standalone
     build:
       context: services/postgres
       dockerfile: Dockerfile
@@ -10,9 +11,12 @@ services:
     environment:
       - POSTGRES_DB=employee
       - POSTGRES_PASSWORD=1234
+#    volumes:
+#    - data:/var/lib/postgres/data
 
 
   activemq:
+    container_name: activemq-standalone
     build:
       context: services/activeMq
       dockerfile: Dockerfile
@@ -21,8 +25,12 @@ services:
       - 8161:8161
 #     jms
       - 61616:61616
+#    volumes:
+#    - data:/var/lib/activemq/data
+
 
   app:
+    container_name: app-standalone
     build:
       context: services/app
       dockerfile: Dockerfile
@@ -31,8 +39,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employee?stringtype=unspecified
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=1234
-##      - FRONTEND_URL=http://localhost
-    image: my_backend_image
+    image: app-img
     ports:
       - 8088:8088
     depends_on:
@@ -40,16 +47,16 @@ services:
       - activemq
 
 
-
-#  frontend:
-#    build:
-#      context: docker/services/frontend
-#      dockerfile:  Dockerfile
-#    image: 'my_frontend_image'
-#    ports:
-#      - 4200:4200
-#    depends_on:
-#      - backend
+  frontend:
+    container_name: frontend-standalone
+    build:
+      context: services/frontend
+      dockerfile: Dockerfile
+    image: frontend-img
+    ports:
+      - 4200:80
+    depends_on:
+      - app
 
 
 volumes:

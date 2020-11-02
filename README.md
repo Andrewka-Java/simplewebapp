@@ -22,3 +22,6 @@ Check pid of postgres
 
 Kill pid
 > sudo kill <pid>
+
+Build angular dist folder for docker
+> npm run build:copy
