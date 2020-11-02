@@ -17,13 +17,6 @@ import javax.jms.ConnectionFactory;
 @Configuration
 public class JmsConfiguration {
 
-//    @Bean
-//    public ActiveMQConnectionFactory connectionFactory(){
-//        ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-//        connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
-//        return connectionFactory;
-//    }
-
 
     @Bean
     public JmsListenerContainerFactory<?> jmsFactory(ConnectionFactory connectionFactory,

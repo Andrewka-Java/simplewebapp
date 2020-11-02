@@ -12,11 +12,20 @@ services:
       - POSTGRES_PASSWORD=1234
 
 
+  activemq:
+    build:
+      context: services/activeMq
+      dockerfile: Dockerfile
+    ports:
+#      ui
+      - 8161:8161
+#     jms
+      - 61616:61616
+
   app:
     build:
       context: services/app
       dockerfile: Dockerfile
-
     environment:
       - PORT=8088
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employee?stringtype=unspecified
@@ -28,6 +37,7 @@ services:
       - 8088:8088
     depends_on:
       - postgres
+      - activemq
 
 
 

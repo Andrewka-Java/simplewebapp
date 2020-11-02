@@ -13,3 +13,12 @@ That to update to the last state:
 Swagger:
 > http://localhost:8088/api/v2/api-docs
 > http://localhost:8088/api/swagger-ui/#/
+
+Postgres local:
+> host all all 0.0.0.0/0 md5
+
+Check pid of postgres
+> sudo ss -lptn 'sport = :5432'
+
+Kill pid
+> sudo kill <pid>
