@@ -16,6 +16,7 @@ Swagger:
 
 Postgres local:
 > host all all 0.0.0.0/0 md5
+> service postgresql restart
 
 Check pid of postgres
 > sudo ss -lptn 'sport = :5432'

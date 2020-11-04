@@ -21,7 +21,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "employees")
+@Table(name = "employees", schema = "public")
 public class Employee {
 
     @ApiModelProperty(value = "An identifier", example = "1")

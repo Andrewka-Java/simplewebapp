@@ -5,7 +5,10 @@ import com.mastery.java.task.model.Gender;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -17,9 +20,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @Slf4j
-@SpringBootTest
+@TestPropertySource(locations = "classpath:application-it.properties")
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
-public class EmployeeDaoTest {
+public class EmployeeDaoTestITCase {
+
 
     @Autowired
     private EmployeeDao dao;
@@ -28,7 +34,8 @@ public class EmployeeDaoTest {
     public void findAll() {
         log.debug("The test method findAll is starting");
         List<Employee> employees = dao.findAll();
-        log.debug("The test method findAll with employees ({})", employees);
+        log.debug("The test method findAll " +
+                "with employees ({})", employees);
 
         assertNotNull(employees);
         assertTrue(employees.size() > 0);

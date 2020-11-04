@@ -16,19 +16,19 @@
         <tagDatabase tag="db_init"/>
     </changeSet>
 
-    <include file="v-1.0/db.changelog-v.1.0.xml" relativeToChangelogFile="true"/>
+    <include file="changes/v-1.0/db.changelog-v.1.0.xml" relativeToChangelogFile="true"/>
 
     <changeSet id="3" author="andrew">
         <tagDatabase tag="v.1.0"/>
     </changeSet>
 
-    <include file="v-2.0/db.changelog-v.2.0.xml" relativeToChangelogFile="true"/>
+    <include file="changes/v-2.0/db.changelog-v.2.0.xml" relativeToChangelogFile="true"/>
 
     <changeSet id="5" author="andrew">
         <tagDatabase tag="v.2.0"/>
     </changeSet>
 
-    <include file="v-3.0/db.changelog-v.3.0.xml" relativeToChangelogFile="true"/>
+    <include file="changes/v-3.0/db.changelog-v.3.0.xml" relativeToChangelogFile="true"/>
 
     <changeSet id="7" author="andrew">
         <tagDatabase tag="v.3.0"/>

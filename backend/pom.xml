@@ -166,6 +166,11 @@
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+
+			<plugin>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>4.1.1</version>
@@ -192,6 +197,70 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.33.0</version>
+				<executions>
+					<execution>
+						<id>prepare-it-database</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+						<configuration>
+							<images>
+								<image>
+									<name>postgres:9.5.4</name>
+									<alias>it-database</alias>
+									<run>
+										<ports>
+											<port>5433:5432</port>
+										</ports>
+										<env>
+<!--											<POSTGRES_USER>postgres</POSTGRES_USER>-->
+<!--											<POSTGRES_PASSWORD>postgres</POSTGRES_PASSWORD>-->
+<!--											<POSTGRES_DB>docker_db_testing_tests</POSTGRES_DB>-->
+										</env>
+										<wait>
+											<log>(?s)database system is ready to accept connections.*database system is ready to accept connections</log>
+											<time>20000</time>
+										</wait>
+									</run>
+								</image>
+							</images>
+						</configuration>
+					</execution>
+					<execution>
+						<id>remove-it-database</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<environmentVariables>
+						<DATABASE_NAME>${it-database.alias}</DATABASE_NAME>
+						<DATABASE_PORT>${it-database.port}</DATABASE_PORT>
+					</environmentVariables>
+				</configuration>
 			</plugin>
 
 		</plugins>
