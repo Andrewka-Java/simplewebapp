@@ -218,7 +218,7 @@
 									<alias>it-database</alias>
 									<run>
 										<ports>
-											<port>5433:5432</port>
+											<port>it-database.port:5432</port>
 										</ports>
 										<wait>
 											<log>(?s)database system is ready to accept connections.*database system is ready to accept connections</log>
@@ -251,12 +251,11 @@
 					</execution>
 				</executions>
 <!--				Todo: for dynamic get properties-->
-<!--				<configuration>-->
-<!--					<environmentVariables>-->
-<!--						<DATABASE_NAME>${it-database.alias}</DATABASE_NAME>-->
-<!--						<DATABASE_PORT>${it-database.port}</DATABASE_PORT>-->
-<!--					</environmentVariables>-->
-<!--				</configuration>-->
+				<configuration>
+					<environmentVariables>
+						<DATABASE_PORT>${it-database.port}</DATABASE_PORT>
+					</environmentVariables>
+				</configuration>
 			</plugin>
 
 		</plugins>
