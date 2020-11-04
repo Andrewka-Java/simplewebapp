@@ -220,11 +220,6 @@
 										<ports>
 											<port>5433:5432</port>
 										</ports>
-										<env>
-<!--											<POSTGRES_USER>postgres</POSTGRES_USER>-->
-<!--											<POSTGRES_PASSWORD>postgres</POSTGRES_PASSWORD>-->
-<!--											<POSTGRES_DB>docker_db_testing_tests</POSTGRES_DB>-->
-										</env>
 										<wait>
 											<log>(?s)database system is ready to accept connections.*database system is ready to accept connections</log>
 											<time>20000</time>
@@ -255,12 +250,13 @@
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<environmentVariables>
-						<DATABASE_NAME>${it-database.alias}</DATABASE_NAME>
-						<DATABASE_PORT>${it-database.port}</DATABASE_PORT>
-					</environmentVariables>
-				</configuration>
+<!--				Todo: for dynamic get properties-->
+<!--				<configuration>-->
+<!--					<environmentVariables>-->
+<!--						<DATABASE_NAME>${it-database.alias}</DATABASE_NAME>-->
+<!--						<DATABASE_PORT>${it-database.port}</DATABASE_PORT>-->
+<!--					</environmentVariables>-->
+<!--				</configuration>-->
 			</plugin>
 
 		</plugins>
