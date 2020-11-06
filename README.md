@@ -86,6 +86,10 @@ Now click <http:localhost:4200> or <http:localhost:8088/api/v1/employees>.
 The next things may be useful for you:
 
 ---
+By default use logback logger, but you can choise log4j:
+> mvn clean install -Dlog4j
+
+---
 _Swagger_ for watching api-documentation:
 > http://localhost:8088/api/v2/api-docs
 > http://localhost:8088/api/swagger-ui/#/
@@ -98,7 +102,6 @@ _Spring Boot Actuator_ for managing the application:
 _Liquibase_ for managing database versions:
 > mvn liquibase:rollback -Dliquibase.rollbackTag=tagVersion
 
----
 
 That make a rollback you should run: 
 * Make a rollback:
