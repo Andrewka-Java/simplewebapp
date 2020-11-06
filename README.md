@@ -1,6 +1,6 @@
-###The test task from Godel Technologies
-
+The test task from Godel Technologies
 ---
+
 
 The project consist of 3 modules:
 
@@ -34,9 +34,7 @@ your the default postgres user has a password as 'postgres'.
 
 * Create a database employee. Follow the next steps:
 >sudo su postgres
-<br>
 >>psql
-<br>
 >>>CREATE DATABASE employee; 
 
 That disable psql-mode use CTRL + D.
@@ -46,14 +44,12 @@ That disable psql-mode use CTRL + D.
 
 * The next steps concern the application. You should to compile the backend and frontend modules and run them.
 > cd simplewebapp/backend;
-<br>
 >>mvn clean spring-boot:run;
 
 
 <br>
 
 >cd simplewebapp/frontend;
-<br>
 >>ng serve -o;
 
 Now click <http:localhost:4200> or <http:localhost:8088/api/v1/employees>.
@@ -67,14 +63,12 @@ The second variant supposes make similar steps. Follow the next steps:
 
 * You need compile backend and frontend parts.
 > cd simplewebapp/backend;
-<br>
 >>mvn clean install;
 
 
 <br>
 
 >cd simplewebapp/frontend;
-<br>
 >>npm run build:copy;
 
 <br>
@@ -95,6 +89,10 @@ The next things may be useful for you:
 _Swagger_ for watching api-documentation:
 > http://localhost:8088/api/v2/api-docs
 > http://localhost:8088/api/swagger-ui/#/
+
+---
+_Spring Boot Actuator_ for managing the application:
+>http://localhost:8090/actuator/
 
 ---
 _Liquibase_ for managing database versions:
