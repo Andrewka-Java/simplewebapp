@@ -10,7 +10,8 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_DB=employee
-      - POSTGRES_PASSWORD=1234
+      - POSTGRES_PASSWORD=postgres
+
 #    volumes:
 #    - data:/var/lib/postgres/data
 
@@ -34,14 +35,20 @@ services:
     build:
       context: services/app
       dockerfile: Dockerfile
+
     environment:
       - PORT=8088
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/employee?stringtype=unspecified
+      - DATASOURCE_URL=jdbc:postgresql://postgres:5432/employee?stringtype=unspecified
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_DATASOURCE_PASSWORD=postgres
+
+      - SPRING_ACTIVEMQ_BROKERURL=tcp://activemq:61616
+      - SPRING_ACTIVEMQ_USER=admin
+      - SPRING_ACTIVEMQ_PASSWORD=admin
     image: app-img
     ports:
       - 8088:8088
+      - 8090:8090
     depends_on:
       - postgres
       - activemq
