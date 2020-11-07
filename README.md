@@ -99,9 +99,7 @@ _Spring Boot Actuator_ for managing the application:
 >http://localhost:8090/actuator/
 
 ---
-_Liquibase_ for managing database versions:
-> mvn liquibase:rollback -Dliquibase.rollbackTag=tagVersion
-
+_Liquibase_ for managing database versions.
 
 That make a rollback you should run: 
 * Make a rollback:
