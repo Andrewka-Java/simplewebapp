@@ -6,8 +6,6 @@ services:
     build:
       context: services/postgres
       dockerfile: Dockerfile
-    ports:
-      - 5432:5432
     environment:
       - POSTGRES_DB=employee
       - POSTGRES_PASSWORD=postgres
@@ -36,8 +34,7 @@ services:
       dockerfile: Dockerfile
 
     environment:
-#      - PORT=8088
-      - DATASOURCE_URL=jdbc:postgresql://postgres:5432/employee?stringtype=unspecified
+      - DATASOURCE_URL=jdbc:postgresql://postgres/employee?stringtype=unspecified
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
 
