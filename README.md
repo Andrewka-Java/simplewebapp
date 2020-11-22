@@ -1,3 +1,6 @@
+[![Build Status](https://www.travis-ci.org/Andrewka-Java/simplewebapp.svg?branch=master)](https://www.travis-ci.org/Andrewka-Java/simplewebapp)
+
+
 The test task from Godel Technologies
 ---
 
