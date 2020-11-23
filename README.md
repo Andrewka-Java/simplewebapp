@@ -1,5 +1,5 @@
 [![Build Status](https://www.travis-ci.org/Andrewka-Java/simplewebapp.svg?branch=master)](https://www.travis-ci.org/Andrewka-Java/simplewebapp)
-
+[![Coverage Status](https://coveralls.io/repos/github/Andrewka-Java/simplewebapp/badge.svg?branch=master)](https://coveralls.io/github/Andrewka-Java/simplewebapp?branch=master)
 
 The test task from Godel Technologies
 ---

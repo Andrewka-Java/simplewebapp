@@ -285,6 +285,11 @@
 			</plugin>
 
 
+<!--			Coveralls-->
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+			</plugin>
 
 <!--Jacoco-->
 			<plugin>
@@ -333,7 +338,21 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
+
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</reporting>
 
 </project>
