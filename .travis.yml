@@ -13,7 +13,7 @@ before_script:
   - psql -c 'create database employee;' -U postgres
 
 script:
-  - mvn clean test coveralls:report
+  - mvn clean verify coveralls:report
 
 #after_success:
 #  - bash <(curl -s https://codecov.io/bash)
