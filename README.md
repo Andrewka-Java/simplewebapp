@@ -61,8 +61,6 @@ Now click <http:localhost:4200> or <http:localhost:8088/api/v1/employees>.
 <br>
 The second variant supposes make similar steps. Follow the next steps:
 
-* Firstly you need restart the postgresql;
-> sudo service postgresql restart;
 
 * You need compile backend and frontend parts.
 > cd simplewebapp/backend;
@@ -78,8 +76,7 @@ The second variant supposes make similar steps. Follow the next steps:
 
 >cd simplewebapp/docker;
 >> docker-compose down;
->>> sudo service postgresql stop;
->>>>sudo docker-compose up --build; 
+>>>sudo docker-compose up --build; 
 
 The latests steps need to stop docker containers and postgresql, otherwise you will get the exceptions;
 
@@ -119,6 +116,14 @@ That to free the port:
 * Kill pid
 > sudo kill \<pid>
 
+<br>
+
+---
+WARNING!
+
+If you want to run the app locally and via docker-compose make sure you are changed the ports.
+
+---
 <br>
 <br>
 
