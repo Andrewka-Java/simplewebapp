@@ -1,10 +1,21 @@
 language: java
 dist: trusty
+
 jdk:
   - oraclejdk8
-before_script: cd backend/
+
+services:
+  - postgresql
+
+
+before_script:
+  - cd backend/
+  - psql -c 'create database employee;' -U postgres
+
+
 #script:
 #  - mvn clean test coveralls:report
+
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
