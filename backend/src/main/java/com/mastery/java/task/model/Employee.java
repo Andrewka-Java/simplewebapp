@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.*;
@@ -65,5 +66,9 @@ public class Employee {
     @NotNull(message = "Salary cannot be less than 400$")
     @Min(400)
     private BigDecimal salary;
+
+
+    private String role;
+    private String password;
 
 }
