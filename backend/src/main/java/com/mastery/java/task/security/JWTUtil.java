@@ -36,25 +36,27 @@ public class JWTUtil {
         return createToken(claims, userDetails.getUsername());
     }
 
-//    Get an username
+//    Get an username from the token
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-//    Get an authorities
+//    Get an authorities from the token
     public String extractAuthorities(String token) {
-        Function<Claims, String> claimsListFunction = claims -> {
-            return (String) claims.get("authorities");
-        };
+
+        Function<Claims, String> claimsListFunction =
+                claims -> (String) claims.get("authorities");
+
         return extractClaim(token, claimsListFunction);
     }
 
-
+//  apply - convert one type to another
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
+//    Get Claims
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SECRET_KEY)
@@ -65,7 +67,7 @@ public class JWTUtil {
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(subject)
+                .setSubject(subject)                                        //Login
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expirationTimeFromNow())
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();

@@ -9,11 +9,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
     private EmployeeDao employeeDao;
+
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
@@ -21,6 +23,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         if (employee == null)
             throw new UsernameNotFoundException("Unknown user: " + login);
+
 
 //        login = firstName.lastName
         UserDetails user = User.builder()

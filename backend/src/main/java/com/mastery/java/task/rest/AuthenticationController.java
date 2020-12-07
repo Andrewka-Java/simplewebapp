@@ -19,11 +19,16 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/v1")
 public class AuthenticationController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final JWTUtil jwtTokenUtil;
 
     @Autowired
-    private JWTUtil jwtTokenUtil;
+    public AuthenticationController(AuthenticationManager authenticationManager,
+                                    JWTUtil jwtTokenUtil) {
+
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
 
     @PostMapping("/authenticate")
@@ -31,8 +36,10 @@ public class AuthenticationController {
     public AuthResponse createAuthenticationToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication;
         try {
-            authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
-            System.out.println(authentication);
+            authentication = authenticationManager
+                    .authenticate(
+                            new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
+
         } catch (BadCredentialsException ex) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The name or the password are incorrect", ex);
         }
