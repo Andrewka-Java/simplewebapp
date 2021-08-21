@@ -37,7 +37,7 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
+// Here should be exctract of UserDetails with help of UserDetailsService
             String commaSeparatedListOfAuthorities = jwtUtil.extractAuthorities(jwt);
 
             List<GrantedAuthority> authorities =

@@ -5,23 +5,20 @@ import com.mastery.java.task.dto.mapper.EmployeeMapper;
 import com.mastery.java.task.exception.EmployeeException;
 import com.mastery.java.task.exception.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
-import com.mastery.java.task.model.Gender;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Optional;
 
+import static com.mastery.java.task.util.Util.getContent;
+import static com.mastery.java.task.util.Util.mapToJson;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Slf4j
 public class EmployeeControllerTest extends AbstractTest {
-
 
     @BeforeEach
     @Override
@@ -89,15 +85,13 @@ public class EmployeeControllerTest extends AbstractTest {
     public void addEmployee() throws Exception {
         Employee employee = createFixtureAdd().get();
 
-        mockMvc.perform(
+        MvcResult result = mockMvc.perform(
                 MockMvcRequestBuilders.post("/v1/employees")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(mapToJson(employee))
         )
-                .andExpect(status().isCreated());
-
-        Mockito.verify(jmsTemplate, Mockito.times(1))
-                .convertAndSend("saveOrUpdate", employee);
+                .andExpect(status().isCreated())
+                .andReturn();
     }
 
     @Test
@@ -182,36 +176,6 @@ public class EmployeeControllerTest extends AbstractTest {
 
         Mockito.verify(jmsTemplate, Mockito.times(0))
                 .convertAndSend("saveOrUpdate", employee);
-    }
-
-
-    private Optional<Employee> createFixture() {
-        Employee employee = new Employee();
-
-        employee.setEmployeeId(1L);
-        employee.setFirstName("firstName");
-        employee.setLastName("lastName");
-        employee.setDepartmentId(1);
-        employee.setJobTitle("developer");
-        employee.setGender(Gender.MALE);
-        employee.setDateOfBirth(LocalDate.now());
-        employee.setSalary(new BigDecimal("400"));
-
-        return Optional.of(employee);
-    }
-
-    private Optional<Employee> createFixtureAdd() {
-        Employee employee = new Employee();
-
-        employee.setFirstName("firstName");
-        employee.setLastName("lastName");
-        employee.setDepartmentId(1);
-        employee.setJobTitle("developer");
-        employee.setGender(Gender.MALE);
-        employee.setDateOfBirth(LocalDate.now());
-        employee.setSalary(new BigDecimal("400"));
-
-        return Optional.of(employee);
     }
 
 }

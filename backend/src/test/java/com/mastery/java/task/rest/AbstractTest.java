@@ -1,8 +1,8 @@
 package com.mastery.java.task.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mastery.java.task.Application;
+import com.mastery.java.task.model.Employee;
+import com.mastery.java.task.model.Gender;
 import com.mastery.java.task.service.EmployeeService;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +10,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Optional;
 
 
+@DirtiesContext
 @SpringBootTest(classes = Application.class)
 public abstract class AbstractTest {
 
@@ -32,8 +36,10 @@ public abstract class AbstractTest {
     private EmployeeController controller;
 
     @Autowired
-    private EmployeeExceptionHandler exceptionHandler;
+    protected EmployeeExceptionHandler exceptionHandler;
 
+    @Autowired
+    protected PasswordEncoder passwordEncoder;
 
     protected void before() {
         mockMvc = MockMvcBuilders.standaloneSetup(exceptionHandler, controller)
@@ -45,12 +51,36 @@ public abstract class AbstractTest {
         Mockito.reset(service);
     }
 
-    protected String mapToJson(Object object) throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(object);
+
+
+    protected Optional<Employee> createFixture() {
+        Employee employee = new Employee();
+
+        employee.setEmployeeId(1L);
+        employee.setFirstName("firstName");
+        employee.setLastName("lastName");
+        employee.setDepartmentId(1);
+        employee.setJobTitle("developer");
+        employee.setGender(Gender.MALE);
+        employee.setDateOfBirth(LocalDate.now());
+        employee.setSalary(new BigDecimal("400"));
+
+        return Optional.of(employee);
     }
 
-    protected String getContent(MvcResult result) throws UnsupportedEncodingException {
-        return result.getResponse().getContentAsString().replaceAll("[\\[\\]]", "");
+    protected Optional<Employee> createFixtureAdd() {
+        Employee employee = new Employee();
+
+        employee.setFirstName("firstName");
+        employee.setLastName("lastName");
+        employee.setDepartmentId(1);
+        employee.setJobTitle("developer");
+        employee.setGender(Gender.MALE);
+        employee.setDateOfBirth(LocalDate.now());
+        employee.setSalary(new BigDecimal("400"));
+        employee.setPassword("12345");
+
+        return Optional.of(employee);
     }
 
 
