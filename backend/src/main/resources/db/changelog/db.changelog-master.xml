@@ -34,4 +34,25 @@
         <tagDatabase tag="v.3.0"/>
     </changeSet>
 
+    <include file="changes/v-4.0/db.changelog-v.4.0.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="12" author="andrew">
+        <tagDatabase tag="v.4.0-all"/>
+    </changeSet>
+
+    <include file="changes/v-5.0/db.changelog-v.5.0.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="14" author="andrew">
+        <tagDatabase tag="v.5.0-all"/>
+    </changeSet>
+
+<!--    New style of id -->
+    <include file="changes/v-6.0/db.changelog-v.6.0.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="60" author="andrew">
+        <tagDatabase tag="v.6.0-all"/>
+    </changeSet>
+
+
+
 </databaseChangeLog>

@@ -116,12 +116,20 @@ That to free the port:
 * Kill pid
 > sudo kill \<pid>
 
+---
+_Spring Security:_
+
+The employee's login matches the pattern (firstName.lastName)
+
 <br>
 
 ---
 WARNING!
 
 If you want to run the app locally and via docker-compose make sure you are changed the ports.
+
+
+
 
 ---
 <br>

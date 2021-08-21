@@ -1,6 +1,5 @@
 package com.mastery.java.task.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -10,8 +9,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -58,12 +60,13 @@ public class Employee {
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dateOfBirth;
 
-
-// TODO: It using for schema-migration with help liquibase
-//
     @ApiModelProperty(value = "Employee's salary", example = "450")
     @NotNull(message = "Salary cannot be less than 400$")
     @Min(400)
     private BigDecimal salary;
+
+
+    private String role;
+    private String password;
 
 }

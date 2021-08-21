@@ -26,3 +26,7 @@ hs_err_pid*
 .idea/
 target/
 docker/**/dist
+/backend/.gradle
+/backend/gradle
+/backend/build
+/backend/gradlew*

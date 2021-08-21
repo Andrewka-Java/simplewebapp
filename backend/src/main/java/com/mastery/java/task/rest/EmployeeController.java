@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,11 +26,13 @@ public class EmployeeController {
 
     private final EmployeeService service;
     private final JmsTemplate jmsTemplate;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public EmployeeController(EmployeeService service, JmsTemplate jmsTemplate) {
+    public EmployeeController(EmployeeService service, JmsTemplate jmsTemplate, PasswordEncoder passwordEncoder) {
         this.service = service;
         this.jmsTemplate = jmsTemplate;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -74,6 +77,10 @@ public class EmployeeController {
         log.debug("The method saveEmployee is starting with param ({})", employee);
 
         if (employee.getEmployeeId() != null) throw new EmployeeException("Such an employee isn't correct.");
+
+        String password = employee.getPassword();
+        employee.setPassword(passwordEncoder.encode(password));
+
         jmsTemplate.convertAndSend("saveOrUpdate", employee);
 
         log.debug("The method saveEmployee was executed with response ({})", employee);

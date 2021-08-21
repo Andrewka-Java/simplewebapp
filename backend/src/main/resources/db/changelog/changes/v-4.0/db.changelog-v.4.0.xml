@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="01/01-changeset-add-employees-roles.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="9" author="andrew">
+        <tagDatabase tag="v-4.0/01"/>
+    </changeSet>
+
+    <include file="02/02-changeset-add-employees-password.xml" relativeToChangelogFile="true"/>
+
+    <changeSet id="11" author="andrew">
+        <tagDatabase tag="v-4.0/02"/>
+    </changeSet>
+
+</databaseChangeLog>

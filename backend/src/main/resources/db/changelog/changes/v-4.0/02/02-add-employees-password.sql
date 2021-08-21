@@ -1,0 +1,2 @@
+ALTER TABLE employees
+    ADD COLUMN password VARCHAR DEFAULT '12345';
