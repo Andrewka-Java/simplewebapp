@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-//    Authentication
+//  Authentication
     @Override
     public void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService);
