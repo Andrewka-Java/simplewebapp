@@ -121,6 +121,9 @@ _Spring Security:_
 
 The employee's login matches the pattern (firstName.lastName)
 
+Currently frontend-side doesn't work because of token-storage doesn't realized yet. 
+To run the project with GUI it's necessary to disable Spring Security.
+Spring Security provides only jwtToken. 
 <br>
 
 ---
