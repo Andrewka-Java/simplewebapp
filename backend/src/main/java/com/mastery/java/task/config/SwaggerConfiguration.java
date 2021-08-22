@@ -37,4 +37,5 @@ public class SwaggerConfiguration {
                 .version("1.0-SNAPSHOT")
                 .build();
     }
+
 }

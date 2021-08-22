@@ -19,13 +19,16 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/v1")
 public class AuthenticationController {
 
+    private static final String INVALID_CREDENTIALS_ERROR_MESSAGE = "The name or the password are incorrect";
+
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtTokenUtil;
 
     @Autowired
-    public AuthenticationController(AuthenticationManager authenticationManager,
-                                    JWTUtil jwtTokenUtil) {
-
+    public AuthenticationController(
+            final AuthenticationManager authenticationManager,
+            final JWTUtil jwtTokenUtil
+    ) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
     }
@@ -33,7 +36,7 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     @ResponseStatus(HttpStatus.OK)
-    public AuthResponse createAuthenticationToken(@RequestBody AuthRequest authRequest) {
+    public AuthResponse createAuthenticationToken(@RequestBody final AuthRequest authRequest) {
         Authentication authentication;
         try {
             authentication = authenticationManager
@@ -41,11 +44,10 @@ public class AuthenticationController {
                             new UsernamePasswordAuthenticationToken(authRequest.getName(), authRequest.getPassword()));
 
         } catch (BadCredentialsException ex) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "The name or the password are incorrect", ex);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, INVALID_CREDENTIALS_ERROR_MESSAGE, ex);
         }
 
-        String jwt = jwtTokenUtil.generateToken((UserDetails) authentication.getPrincipal());
-
+        final String jwt = jwtTokenUtil.generateToken((UserDetails) authentication.getPrincipal());
         return new AuthResponse(jwt);
     }
 

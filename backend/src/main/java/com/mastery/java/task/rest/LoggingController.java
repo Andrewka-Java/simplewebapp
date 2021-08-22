@@ -2,8 +2,6 @@ package com.mastery.java.task.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,15 +16,18 @@ import java.util.List;
 @RequestMapping("/log")
 public class LoggingController {
 
+    private static final String RESPONSE = "See the log for details";
+    private static final String LOG_LEVEL_MESSAGE_PATTERN = "This is {} level message.";
+
 
     @ApiOperation(value = "Get a logger level", response = List.class)
     @GetMapping()
     public String log() {
-        log.trace("This is a TRACE level message");
-        log.debug("This is a DEBUG level message");
-        log.info("This is an INFO level message");
-        log.warn("This is a WARN level message");
-        log.error("This is an ERROR level message");
-        return "See the log for details";
+        log.trace(LOG_LEVEL_MESSAGE_PATTERN, "TRACE");
+        log.debug(LOG_LEVEL_MESSAGE_PATTERN, "DEBUG");
+        log.info(LOG_LEVEL_MESSAGE_PATTERN, "INFO");
+        log.warn(LOG_LEVEL_MESSAGE_PATTERN, "WARN");
+        log.error(LOG_LEVEL_MESSAGE_PATTERN, "ERROR");
+        return RESPONSE;
     }
 }

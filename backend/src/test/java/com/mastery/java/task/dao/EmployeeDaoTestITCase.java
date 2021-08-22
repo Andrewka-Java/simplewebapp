@@ -2,70 +2,63 @@ package com.mastery.java.task.dao;
 
 import com.mastery.java.task.model.Employee;
 import com.mastery.java.task.model.Gender;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@Slf4j
 @TestPropertySource(locations = "classpath:application-it.properties")
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 public class EmployeeDaoTestITCase {
 
-
     @Autowired
     private EmployeeDao dao;
 
     @Test
     public void findAll() {
-        log.debug("The test method findAll is starting");
-        List<Employee> employees = dao.findAll();
-        log.debug("The test method findAll " +
-                "with employees ({})", employees);
+        //When
+        final List<Employee> employees = dao.findAll();
 
+        //Then
         assertNotNull(employees);
         assertTrue(employees.size() > 0);
     }
 
     @Test
     public void findById() {
-        log.debug("The test method findById is starting");
-        Employee employee = createFixtureAdd().get();
-        Employee savedEmployee = dao.save(employee);
+        //Given
+        final Employee employee = createFixtureAdd();
+        final Employee savedEmployee = dao.save(employee);
 
-        log.debug("The test method findById with savedEmployee ({})", savedEmployee);
-        Employee foundEmployee = dao.findById(savedEmployee.getEmployeeId()).get();
-        log.debug("The test method findById with foundEmployee ({})", foundEmployee);
+        //When
+        final Employee foundEmployee = dao.findById(savedEmployee.getEmployeeId()).get();
 
+        //Then
         assertEquals(savedEmployee, foundEmployee);
     }
 
     @Test
     public void add() {
-        log.debug("The test method add is starting");
-        int sizeBefore = dao.findAll().size();
-        Employee employee = createFixtureAdd().get();
-        log.debug("The test method add with employee and a size({}, {})", employee, sizeBefore);
+        //Given
+        final int sizeBefore = dao.findAll().size();
+        final Employee employee = createFixtureAdd();
 
+        //When
+        final Employee savedEmployee = dao.save(employee);
 
-        Employee savedEmployee = dao.save(employee);
-        int sizeAfter = dao.findAll().size();
-        log.debug("The test method add with savedEmployee and a size ({}, {})", savedEmployee, sizeAfter);
-
+        //Then
+        final int sizeAfter = dao.findAll().size();
         assertEquals(sizeBefore + 1, sizeAfter);
         assertNotNull(savedEmployee.getEmployeeId());
         assertEquals(employee.getFirstName(), savedEmployee.getFirstName());
@@ -78,40 +71,38 @@ public class EmployeeDaoTestITCase {
 
     @Test
     public void update() {
-        log.debug("The test method update is starting");
-        Employee employee = createFixtureAdd().get();
-
-        Employee savedEmployee = dao.save(employee);
-        Employee foundEmployee = dao.findById(employee.getEmployeeId()).get();
-        log.debug(
-                "The test method update with a savedEmployee and a foundEmployee({}, {})", savedEmployee, foundEmployee);
+        //Given
+        final Employee employee = createFixtureAdd();
+        final Employee savedEmployee = dao.save(employee);
+        final Employee foundEmployee = dao.findById(employee.getEmployeeId()).get();
 
         foundEmployee.setSalary(new BigDecimal("450"));
         foundEmployee.setLastName("newLastName");
 
+        //When
         dao.save(savedEmployee);
 
+        //Then
         assertNotEquals(foundEmployee, dao.findById(employee.getEmployeeId()));
     }
 
     @Test
     public void delete() {
-        log.debug("The test method delete is starting");
-        Employee savedEmployee = dao.save(createFixtureAdd().get());
-        int sizeBefore = dao.findAll().size();
-        log.debug("The test method delete with a savedEmployee and a size ({}, {})", savedEmployee, sizeBefore);
+        //Given
+        final Employee savedEmployee = dao.save(createFixtureAdd());
+        final int sizeBefore = dao.findAll().size();
 
-
+        //When
         dao.deleteById(savedEmployee.getEmployeeId());
-        int sizeAfter = dao.findAll().size();
-        log.debug("The test method delete with a size ({})", sizeBefore);
 
+        //Then
+        final int sizeAfter = dao.findAll().size();
         assertEquals(sizeBefore - 1, sizeAfter);
     }
 
 
-    private Optional<Employee> createFixtureAdd() {
-        Employee employee = new Employee();
+    private Employee createFixtureAdd() {
+        final Employee employee = new Employee();
 
         employee.setFirstName("firstName");
         employee.setLastName("lastName");
@@ -121,6 +112,7 @@ public class EmployeeDaoTestITCase {
         employee.setDateOfBirth(LocalDate.now());
         employee.setSalary(new BigDecimal("400"));
 
-        return Optional.of(employee);
+        return employee;
     }
+
 }

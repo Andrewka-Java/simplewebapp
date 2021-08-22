@@ -51,25 +51,19 @@ public abstract class AbstractTest {
         Mockito.reset(service);
     }
 
-
-
-    protected Optional<Employee> createFixture() {
-        Employee employee = new Employee();
-
-        employee.setEmployeeId(1L);
-        employee.setFirstName("firstName");
-        employee.setLastName("lastName");
-        employee.setDepartmentId(1);
-        employee.setJobTitle("developer");
-        employee.setGender(Gender.MALE);
-        employee.setDateOfBirth(LocalDate.now());
-        employee.setSalary(new BigDecimal("400"));
-
-        return Optional.of(employee);
+    protected Optional<Employee> createOptionalFixture() {
+        return Optional.of(createFixture());
     }
 
-    protected Optional<Employee> createFixtureAdd() {
-        Employee employee = new Employee();
+    protected Employee createFixture() {
+        final Employee employee = createFixtureAdd();
+        employee.setEmployeeId(1L);
+
+        return employee;
+    }
+
+    protected Employee createFixtureAdd() {
+        final Employee employee = new Employee();
 
         employee.setFirstName("firstName");
         employee.setLastName("lastName");
@@ -80,8 +74,7 @@ public abstract class AbstractTest {
         employee.setSalary(new BigDecimal("400"));
         employee.setPassword("12345");
 
-        return Optional.of(employee);
+        return employee;
     }
-
 
 }

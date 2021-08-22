@@ -8,15 +8,15 @@ import java.io.UnsupportedEncodingException;
 
 public class Util {
 
-    public static String mapToJson(Object object) throws JsonProcessingException {
+    public static String mapToJson(final Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }
 
-    public static String getContent(MvcResult result) throws UnsupportedEncodingException {
+    public static String getContent(final MvcResult result) throws UnsupportedEncodingException {
         return result.getResponse().getContentAsString().replaceAll("[\\[\\]]", "");
     }
 
-    public static String getContent(String content){
+    public static String getContent(final String content){
         return content.replaceAll("[\\[\\]]", "");
     }
 

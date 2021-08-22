@@ -13,34 +13,34 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 
+    private final EmployeeDao employeeDao;
+
     @Autowired
-    private EmployeeDao employeeDao;
+    public UserDetailServiceImpl(final EmployeeDao employeeDao) {
+        this.employeeDao = employeeDao;
+    }
 
 
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Employee employee = findByLogin(login);
+    public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
+        final Employee employee = findByLogin(login);
 
         if (employee == null)
             throw new UsernameNotFoundException("Unknown user: " + login);
 
-
 //        login = firstName.lastName
-        UserDetails user = User.builder()
+        return User.builder()
                 .username(login)
                 .password(employee.getPassword())
                 .roles(employee.getRole())
                 .build();
-
-        return user;
     }
 
-    private Employee findByLogin(String login) {
-        String firstName = login.split("\\.")[0];
-        String lastName = login.split("\\.")[1];
-        Employee employee = employeeDao.findByFirstNameAndLastName(firstName, lastName);
+    private Employee findByLogin(final String login) {
+        final String firstName = login.split("\\.")[0];
+        final String lastName = login.split("\\.")[1];
 
-        return employee;
+        return employeeDao.findByFirstNameAndLastName(firstName, lastName);
     }
 
 }
