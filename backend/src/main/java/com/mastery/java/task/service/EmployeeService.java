@@ -10,7 +10,11 @@ import java.util.List;
 public interface EmployeeService {
 
     List<EmployeeDto> findAllEmployee();
-    EmployeeDto findEmployeeById(Long id) throws NoEmployeeException;
+
+    EmployeeDto findEmployeeById(long id) throws NoEmployeeException;
+
     void saveOrUpdate(Employee employee);
-    void deleteEmployee(Long id) throws NoEmployeeException;
+
+    void deleteEmployee(long id) throws NoEmployeeException;
+
 }

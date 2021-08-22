@@ -17,11 +17,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailServiceImpl userDetailService;
+    private final UserDetailServiceImpl userDetailService;
+    private final JWTFilter jwtFilter;
 
     @Autowired
-    private JWTFilter jwtFilter;
+    public SecurityConfiguration(
+            final UserDetailServiceImpl userDetailService,
+            final JWTFilter jwtFilter
+    ) {
+        this.userDetailService = userDetailService;
+        this.jwtFilter = jwtFilter;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,13 +41,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 //    Authentication
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    public void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService);
     }
 
 //    Authorization
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/v1/authenticate").permitAll()
@@ -51,6 +57,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
 
 }

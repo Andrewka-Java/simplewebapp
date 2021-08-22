@@ -17,11 +17,10 @@ import javax.jms.ConnectionFactory;
 @Configuration
 public class JmsConfiguration {
 
-
     @Bean
-    public JmsListenerContainerFactory<?> jmsFactory(ConnectionFactory connectionFactory,
-                                                    DefaultJmsListenerContainerFactoryConfigurer configurer) {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
+    public JmsListenerContainerFactory<?> jmsFactory(final ConnectionFactory connectionFactory,
+                                                    final DefaultJmsListenerContainerFactoryConfigurer configurer) {
+        final DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
 
         return factory;
@@ -29,7 +28,7 @@ public class JmsConfiguration {
 
     @Bean
     public MessageConverter jacksonJmsMessageConverter() {
-        MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
+        final MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName("_type");
 

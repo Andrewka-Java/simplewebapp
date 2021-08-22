@@ -18,13 +18,16 @@ import java.util.List;
 @Component
 public class JWTFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
 
-//    Check JWT token
+    @Autowired
+    public JWTFilter(final JWTUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
+    //    Check JWT token
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain chain) throws ServletException, IOException {
 
         final String authorizationHeader = request.getHeader("Authorization");
 
@@ -38,12 +41,12 @@ public class JWTFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 // Here should be exctract of UserDetails with help of UserDetailsService
-            String commaSeparatedListOfAuthorities = jwtUtil.extractAuthorities(jwt);
+            final String commaSeparatedListOfAuthorities = jwtUtil.extractAuthorities(jwt);
 
-            List<GrantedAuthority> authorities =
+            final List<GrantedAuthority> authorities =
                     AuthorityUtils.commaSeparatedStringToAuthorityList(commaSeparatedListOfAuthorities);
 
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+            final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(
                             username, null, authorities);
 

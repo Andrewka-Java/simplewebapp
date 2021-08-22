@@ -42,7 +42,7 @@ public class Employee {
     @NotNull
     private LocalDate dateOfBirth;
 
-    @NotNull(message = "Salary cannot be less than 400$")
+    @NotNull(message = "Salary can't be less than 400$")
     @Min(400)
     private BigDecimal salary;
 

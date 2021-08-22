@@ -5,7 +5,6 @@ import com.mastery.java.task.dto.mapper.EmployeeMapper;
 import com.mastery.java.task.exception.EmployeeException;
 import com.mastery.java.task.exception.NoEmployeeException;
 import com.mastery.java.task.model.Employee;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,69 +22,67 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@Slf4j
 public class EmployeeControllerTest extends AbstractTest {
 
     @BeforeEach
     @Override
     public void before() {
-      log.debug("The test method before is starting");
-      super.before();
-      log.debug("The test method before was executed");
+        super.before();
     }
 
     @AfterEach
     @Override
     public void after() {
-        log.debug("The test method after is starting");
         super.after();
-        log.debug("The test method after was executed");
     }
 
 
     @Test
     public void findAllEmployees() throws Exception {
-        EmployeeDto employeeDto = EmployeeMapper.toEmployeeDto(createFixture().get());
-
+        //Given
+        final EmployeeDto employeeDto = EmployeeMapper.toEmployeeDto(createFixture());
         Mockito.when(service.findAllEmployee())
                 .thenReturn(Collections.singletonList(employeeDto));
 
-        MvcResult result = mockMvc.perform(
+        //When
+        final MvcResult result = mockMvc.perform(
                 MockMvcRequestBuilders.get("/v1/employees")
-                .accept(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
+        //Then
         assertEquals(mapToJson(employeeDto), getContent(result), () -> "The bodies isn't equivalent");
-
         Mockito.verify(service, Mockito.times(1)).findAllEmployee();
     }
 
     @Test
     public void findEmployeeById() throws Exception {
-        EmployeeDto employeeDto = EmployeeMapper.toEmployeeDto(createFixture().get());
-
+        //Given
+        final EmployeeDto employeeDto = EmployeeMapper.toEmployeeDto(createFixture());
         Mockito.when(service.findEmployeeById(1L)).thenReturn(employeeDto);
 
-        MvcResult result = mockMvc.perform(
+        //When
+        final MvcResult result = mockMvc.perform(
                 MockMvcRequestBuilders.get("/v1/employees/{id}", 1)
                         .accept(MediaType.APPLICATION_JSON)
         )
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
+        //Then
         assertEquals(mapToJson(employeeDto), getContent(result), () -> "The bodies isn't equivalent");
-
         Mockito.verify(service, Mockito.times(1)).findEmployeeById(1L);
     }
 
     @Test
     public void addEmployee() throws Exception {
-        Employee employee = createFixtureAdd().get();
+        //Given
+        final Employee employee = createFixtureAdd();
 
-        MvcResult result = mockMvc.perform(
+        //When
+        final MvcResult result = mockMvc.perform(
                 MockMvcRequestBuilders.post("/v1/employees")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(mapToJson(employee))
@@ -96,8 +93,10 @@ public class EmployeeControllerTest extends AbstractTest {
 
     @Test
     public void updateEmployee() throws Exception {
-        Employee employee = createFixture().get();
+        //Given
+        final Employee employee = createFixture();
 
+        //When
         mockMvc.perform(
                 MockMvcRequestBuilders.put("/v1/employees/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -105,27 +104,31 @@ public class EmployeeControllerTest extends AbstractTest {
         )
                 .andExpect(status().isNoContent());
 
+        //Then
         Mockito.verify(jmsTemplate, Mockito.times(1))
                 .convertAndSend("saveOrUpdate", employee);
     }
 
     @Test
     public void deleteEmployee() throws Exception {
+        //When
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/v1/employees/{id}", 1)
         )
                 .andExpect(status().isNoContent());
 
+        //Then
         Mockito.verify(jmsTemplate, Mockito.times(1))
                 .convertAndSend("deleteEmployee", 1L);
     }
 
 
-
     @Test
     public void findEmployeeByIdBad() throws Exception {
+        //Given
         Mockito.when(service.findEmployeeById(100L)).thenThrow(new NoEmployeeException("No one employee was found."));
 
+        //When
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/v1/employees/{id}", 100)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -136,14 +139,17 @@ public class EmployeeControllerTest extends AbstractTest {
                         assertEquals("No one employee was found.",
                                 result.getResolvedException().getMessage()));
 
+        //Then
         Mockito.verify(service, Mockito.times(1)).findEmployeeById(100L);
     }
 
 
     @Test
     public void addEmployeeBad() throws Exception {
-        Employee employee = createFixture().get();
+        //Given
+        final Employee employee = createFixture();
 
+        //When
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/v1/employees")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -153,16 +159,19 @@ public class EmployeeControllerTest extends AbstractTest {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof EmployeeException))
                 .andExpect(result ->
                         assertEquals("Such an employee isn't correct.",
-                                result.getResolvedException().getMessage()));;
+                                result.getResolvedException().getMessage()));
 
+        //Then
         Mockito.verify(jmsTemplate, Mockito.times(0))
                 .convertAndSend("saveOrUpdate", employee);
     }
 
     @Test
     public void updateEmployeeBad() throws Exception {
-        Employee employee = createFixtureAdd().get();
+        //Given
+        final Employee employee = createFixtureAdd();
 
+        //When
         mockMvc.perform(
                 MockMvcRequestBuilders.put("/v1/employees/{id}", 1)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -172,8 +181,10 @@ public class EmployeeControllerTest extends AbstractTest {
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof EmployeeException))
                 .andExpect(result ->
                         assertEquals("Such an employee isn't correct.",
-                                result.getResolvedException().getMessage()));;
+                                result.getResolvedException().getMessage()));
+        ;
 
+        //Then
         Mockito.verify(jmsTemplate, Mockito.times(0))
                 .convertAndSend("saveOrUpdate", employee);
     }
