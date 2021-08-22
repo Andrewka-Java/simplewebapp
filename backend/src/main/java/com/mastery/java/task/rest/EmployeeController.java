@@ -37,10 +37,6 @@ public class EmployeeController {
 
 
     @ApiOperation(value = "Get a list of employees", response = List.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved list"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    })
     @GetMapping(value = "/employees", produces = "application/json")
     public List<EmployeeDto> findAllEmployee() {
         log.debug("The method findAllEmployee is starting");
@@ -51,10 +47,6 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "Get a employee by an id", response = Employee.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved object"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    })
     @GetMapping(value = "/employees/{id}", produces = "application/json")
     public EmployeeDto findEmployeeById(@PathVariable("id") Long id) throws NoEmployeeException {
         log.debug("The method findEmployeeById is starting with param ({})", id);
@@ -65,12 +57,6 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "Save an employee", response = void.class)
-    @ApiImplicitParam(name = "employee", required = true,
-            value = "Employee object", paramType = "body", dataTypeClass = Employee.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Successfully created"),
-            @ApiResponse(code = 400, message = "Bad request")
-    })
     @PostMapping(value = "/employees", consumes = "application/json")
     @ResponseStatus(value = HttpStatus.CREATED)
     public void saveEmployee(@Valid @RequestBody Employee employee) throws EmployeeException {
@@ -87,12 +73,6 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "Update an employee", response = void.class)
-    @ApiImplicitParam(name = "employee", required = true,
-            value = "Employee object", paramType = "body", dataTypeClass = Employee.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Successfully updated"),
-            @ApiResponse(code = 400, message = "Bad request")
-    })
     @PutMapping(value = "/employees/{id}", consumes = "application/json")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateEmployee(@PathVariable("id") Long id,
@@ -108,11 +88,6 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "Delete an employee", response = void.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "Successfully deleted"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    })
     @DeleteMapping(value = "/employees/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable("id") Long id) {

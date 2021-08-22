@@ -20,10 +20,6 @@ public class LoggingController {
 
 
     @ApiOperation(value = "Get a logger level", response = List.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully retrieved list"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")
-    })
     @GetMapping()
     public String log() {
         log.trace("This is a TRACE level message");

@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class JWTUtil {
         String commaSeparatedListOfAuthorities =
                 userDetails.getAuthorities()
                     .stream()
-                    .map(a->a.getAuthority())
+                    .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.joining(","));
 
         claims.put("authorities", commaSeparatedListOfAuthorities);
